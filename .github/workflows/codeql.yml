@@ -45,10 +45,9 @@ jobs:
       run: docker build -t go-web-server .
     - name: Run and Test Docker Container
       run: |
-        docker run -d -p 8080:8080 go-web-server
-        sleep 5 # wait for the server to start
+        CONTAINER_ID=$(docker run -d -p 8080:8080 go-web-server)
+        sleep 10 # wait for the server to start
         curl "http://localhost:8080/readfile?file=hello.txt"
 
-        CONTAINER_ID=$(docker ps -q)
         echo "Deleting container $CONTAINER_ID"
         docker rm -f $CONTAINER_ID
